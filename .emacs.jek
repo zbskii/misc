@@ -1,0 +1,202 @@
+(setq load-path
+      (append
+       (list
+        (expand-file-name "~/.emacs.d/el")
+        (expand-file-name "~/Library/Preferences/Aquamacs Emacs/el/yasnippet")
+        (expand-file-name "~/Library/Preferences/Aquamacs Emacs/el/emacs-goodies-el")
+        (expand-file-name "~/Library/Preferences/Aquamacs Emacs/el/predictive"))
+;        (expand-file-name "~/Library/Preferences/Aquamacs Emacs/el"))
+        load-path))
+
+
+(server-start)
+
+;; virtualenv
+(setq exec-path
+      (cons (expand-file-name "~/libexec/devtools/bin") exec-path))
+(add-to-list 'exec-path "/usr/local/bin")
+
+(autoload 'pymacs-apply "pymacs")
+(autoload 'pymacs-call "pymacs")
+(autoload 'pymacs-eval "pymacs" nil t)
+(autoload 'pymacs-exec "pymacs" nil t)
+(autoload 'pymacs-load "pymacs" nil t)
+
+(pymacs-load "pastemacs" "paste-")
+(setq paste-kill-url t
+      paste-show-in-browser nil)
+
+(set-frame-parameter nil 'alpha 92)
+
+(setq ispell-program-name "/usr/local/bin/aspell"
+      ispell-extra-args '("--sug-mode=fast")
+      ispell-dictionary "english"
+      ispell-dictionary-alist
+      (let ((default '("[A-Za-z]" "[^A-Za-z]" "[']" nil
+                       ("-B" "-d" "english" "--dict-dir"
+                        "/Library/Application Support/cocoAspell/aspell6-en-6.0-0")
+                       nil iso-8859-1)))
+        `((nil ,@default)
+          ("english" ,@default))))
+
+
+(require 'flyspell)
+(setq flyspell-mouse-map
+      (let ((map (make-sparse-keymap)))
+        (define-key map (if (featurep 'xemacs) [button3] [down-mouse-3])
+          #'flyspell-correct-word)
+        map))
+
+
+;(require 'mac-key-mode)
+;(mac-key-mode 1)
+;(define-key mac-key-mode-map [(alt l)] 'goto-line)
+
+(require 'yasnippet)
+(yas/initialize)
+(yas/load-directory
+ (expand-file-name "~/Library/Preferences/Aquamacs Emacs/el/yasnippet/snippets"))
+
+(require 'all)
+
+(require 'browse-kill-ring)
+(browse-kill-ring-default-keybindings)
+
+(autoload 'predictive-mode "predictive" "predictive" t)
+
+(require 'dedicated)
+(require 'diminish)
+(diminish 'yas/minor-mode)
+
+(require 'rst)
+(add-to-list 'auto-mode-alist '("\\.rst$" . rst-mode))
+
+(require 'pabbrev)
+
+(require 'uniquify)
+(load-library "pydo")
+
+(defun load-ropemacs ()
+  "Load pymacs and ropemacs"
+  (interactive)
+  (require 'pymacs)
+  (pymacs-load "ropemacs" "rope-")
+  ;; Automatically save project python buffers before refactorings
+  (setq ropemacs-confirm-saving 'nil)
+)
+(global-set-key "\C-xpl" 'load-ropemacs)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+
+
+(global-set-key (kbd "C-\\") 'call-last-kbd-macro)
+(global-set-key (kbd "<f11>") 'goto-line)
+(global-set-key (kbd "<s-up>") 'beginning-of-buffer)
+(global-set-key (kbd "<s-down>") 'end-of-buffer)
+
+
+(defun jek-py-hooks ()
+  (flyspell-prog-mode)
+  (ruler-mode)
+  (imenu-add-menubar-index)
+  (turn-on-eldoc-mode)
+  (pabbrev-mode)
+  ;(define-key python-mode-map "\C-m" 'newline-and-indent)
+  (setq ropemacs-enable-shortcuts nil)
+  (setq ropemacs-guess-project t)
+)
+(add-hook 'python-mode-hook 'jek-py-hooks)
+
+;(eval-after-load "wisent-python"
+;  (remove-hook 'python-mode-hook 'wisent-python-default-setup))
+
+(require 'python-mode)
+(eval-after-load 'xxx-python
+  ;; jek's python font-lock
+  '(setq python-font-lock-keywords
+         `(,(rx symbol-start
+                ;; From v 2.5 reference, § keywords.
+                ;; def and class dealt with separately below
+                (or "and" "as" "assert" "break" "continue" "del" "elif" "else"
+                    "except" "exec" "finally" "for" "from" "global" "if"
+                    "import" "in" "is" "lambda" "not" "or" "pass" "print"
+                    "raise" "return" "try" "while" "with" "yield")
+                symbol-end)
+           (,(rx symbol-start
+                 (or "None" "True" "False" "tuple()" "frozenset()")
+                 symbol-end)    ; see § Keywords in 2.5 manual
+            . font-lock-constant-face)
+           ;; Definitions
+           (,(rx symbol-start
+                 (group "class") (1+ space) (group (1+ (or word ?_))))
+            (1 font-lock-keyword-face) (2 font-lock-type-face))
+           (,(rx symbol-start
+                 (group "def") (1+ space) (group (1+ (or word ?_))))
+            (1 font-lock-keyword-face) (2 font-lock-function-name-face))
+           ;; Top-level assignments are worth highlighting.
+           (,(rx line-start (group (1+ (or word ?_))) (0+ space) "=")
+            (1 font-lock-variable-name-face))
+           (,(rx line-start
+                 (* (any " \t")) (group "@" (1+ (or word ?_)))) ; decorators
+            (1 font-lock-type-face))
+           (,(rx symbol-start (or "self" "cls" "class_") symbol-end)
+            . font-lock-variable-name-face)
+           ;; Built-ins.  (The next three blocks are from
+           ;; `__builtin__.__dict__.keys()' in Python 2.5.1.)  These patterns
+           ;; are debateable, but they at least help to spot possible
+           ;; shadowing of builtins.
+           (,(rx symbol-start
+                 (or
+                  ;; exceptions
+                  "ArithmeticError" "AssertionError" "AttributeError"
+                  "BaseException" "DeprecationWarning" "EOFError"
+                  "EnvironmentError" "Exception" "FloatingPointError"
+                  "FutureWarning" "GeneratorExit" "IOError" "ImportError"
+                  "ImportWarning" "IndentationError" "IndexError" "KeyError"
+                  "KeyboardInterrupt" "LookupError" "MemoryError" "NameError"
+                  "NotImplemented" "NotImplementedError" "OSError"
+                  "OverflowError" "PendingDeprecationWarning" "ReferenceError"
+                  "RuntimeError" "RuntimeWarning" "StandardError"
+                  "StopIteration" "SyntaxError" "SyntaxWarning" "SystemError"
+                  "SystemExit" "TabError" "TypeError" "UnboundLocalError"
+                  "UnicodeDecodeError" "UnicodeEncodeError" "UnicodeError"
+                  "UnicodeTranslateError" "UnicodeWarning" "UserWarning"
+                  "ValueError" "Warning" "ZeroDivisionError") symbol-end)
+            . font-lock-type-face)
+           (,(rx (or line-start (not (any ". \t"))) (* (any " \t")) symbol-start
+                 (group
+                  (or
+                   ;; callable built-ins, fontified when not appearing as
+                   ;; object attributes
+                   "abs" "all" "any" "apply" "basestring" "bool" "buffer"
+                   "callable" "chr" "classmethod" "cmp" "coerce" "compile"
+                   "complex" "copyright" "credits" "delattr" "dict" "dir"
+                   "divmod" "enumerate" "eval" "execfile" "exit" "file"
+                   "filter" "float" "frozenset" "getattr" "globals" "hasattr"
+                   "hash" "help" "hex" "id" "input" "int" "intern"
+                   "isinstance" "issubclass" "iter" "len" "license" "list"
+                   "locals" "long" "map" "max" "min" "object" "oct" "open"
+                   "ord" "pow" "property" "quit" "range" "raw_input" "reduce"
+                   "reload" "repr" "reversed" "round" "set" "setattr" "slice"
+                   "sorted" "staticmethod" "str" "sum" "super" "tuple" "type"
+                   "unichr" "unicode" "vars"
+                   "xrange" "zip")) symbol-end)
+            (1 font-lock-builtin-face))
+           (";" . font-lock-warning-face)
+           (,(rx symbol-start "__" (+? (char alnum)) "__" symbol-end)
+            0 font-lock-preprocessor-face t)
+           (,(rx symbol-start
+                 "__" (+? (char alnum)) "_" (+? (char alnum)) "__"
+                 symbol-end)
+            0 font-lock-warning-face t)
+           (,(rx symbol-start
+                 (or
+                  ;; other built-ins
+                  "Ellipsis" "_" "__debug__" "__import__"
+                  "__base__" "__bases__" "__class__" "__doc__"
+                  "__module__" "__mro__" "__name__" "__subclasses__")
+                 symbol-end)
+            0 font-lock-builtin-face t))))
+
+
+(setq custom-file "~/.emacs.d/customizations.el")
+(load custom-file)

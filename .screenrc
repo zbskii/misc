@@ -1,0 +1,11 @@
+escape ^oo
+startup_message off
+setenv SSH_AUTH_SOCK ${SSH_AUTH_SOCK}
+screen 0
+caption always "%H %= %-w%L>%{= BW}%n*%t%{-}%52<%+w %L="
+defutf8 on
+
+# 256 colors
+attrcolor b ".I"
+termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+defbce on

@@ -1,0 +1,11 @@
+syntax: glob
+.emacs.d/history
+.emacs.d/auto-save-list
+.emacs.d/tramp
+.emacs.d/.emacs.desktop
+.emacs.d/.emacs.desktop.lock
+.emacs.d/ac-comphist.dat
+.emacs.d/url/cookies
+*.elc
+.git
+.emacs.d/cache

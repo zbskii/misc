@@ -1,0 +1,88 @@
+[ui]
+#username=Brett Carter <brett@rdnzl.net>
+username=Brett Carter <brett@idealist.org>
+ignore=~/.hgignore
+
+[alias]
+slog = log --style=$HOME/lib/mercurial-cli-templates/map-cmdline.slog
+nlog = log --style=$HOME/lib/mercurial-cli-templates/map-cmdline.nlog
+sglog = glog --style=$HOME/lib/mercurial-cli-templates/map-cmdline.sglog
+. = log -r .
+p. = paste -c . -b
+p = paste
+d. = diff -r -2:-1
+
+[extensions]
+autopager=/Users/brett/lib/autopager/autopager.py
+bookmarks=
+children=
+churn=
+color=
+config=~/lib/hgconfig/hgext/config.py
+convert=
+collapse=~/lib/hgcollapse/hgext/collapse.py
+extdiff=
+fetch=
+graphlog=
+hgpaste=~/lib/hgpaste/hgpaste.py
+histedit=~/lib/histedit/hg_histedit.py
+mq=
+patchbomb=
+progress=
+purge=
+rebase=
+record=
+reviewboard=~/lib/mercurial-reviewboard
+shelve=~/lib/hgshelve/hgshelve.py
+zeroconf=
+
+[trusted]
+groups = hg
+
+[autopager]
+pager = LESS='FRX' less
+attend = slog, nlog, sglog
+ignore = version, help, update, push, pull, merge, fetch, convert, clone, record, crecord, grep, slog, paste, serve, shelve, postreview
+
+[paste]
+server = http://paste.pocoo.org/
+
+# Patchbomb
+[email]
+# from = Brett Carter <brett@rdnzl.net>
+# to = mercurial-devel@selenic.com
+# #to = brett@rdnzl.net
+# method = smtp
+
+# [smtp]
+# host = smtp.gmail.com
+# tls = True
+# username = brett@rdnzl.net
+#port = 587
+
+[diff]
+nodates=1
+#git=1
+
+[extdiff]
+cmd.opendiff = fmdiff
+cmd.ediff = sh
+opts.ediff = -c 'if [ -d $0 ]; then /Applications/Emacs.app/Contents/MacOS/bin/emacsclient --eval "(ediff-directories \"$0\" \"$1\" \"\")"; else /Applications/Emacs.app/Contents/MacOS/bin/emacsclient --eval "(ediff-files \"$0\" \"$1\")"; fi'
+
+[merge-patterns]
+** = filemerge
+#** = changes
+
+[merge-tools]
+filemerge.executable = fmdiff3
+filemerge.args = -m $local $base $other > $output
+filemerge.checkconflicts = true
+filemerge.checkchanged = true
+filemerge.gui = true
+changes.executable = chdiff
+changes.args = --wait $local $other
+
+[reviewboard]
+server = http://trac.idealist.org/reviews
+user = brett
+target_groups = i3_development
