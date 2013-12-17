@@ -257,10 +257,10 @@
 (color-theme-twilight)
 
 ;; YASnippet
-(add-to-list 'load-path "~/.emacs.d/yasnippet-0.6.1c")
-(require 'yasnippet) ;; not yasnippet-bundle
-(yas/initialize)
-(yas/load-directory "~/.emacs.d/yasnippet-0.6.1c/snippets")
+;; (add-to-list 'load-path "~/.emacs.d/yasnippet-0.6.1c")
+;; (require 'yasnippet) ;; not yasnippet-bundle
+;; (yas/initialize)
+;; (yas/load-directory "~/.emacs.d/yasnippet-0.6.1c/snippets")
 ;; Not for aquaemacs (setq visible-bell nil)
 
 (add-to-list 'load-path "~/.emacs.d/")
