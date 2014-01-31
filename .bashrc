@@ -18,7 +18,7 @@ export LSCOLORS=ExFxCxDxBxegedabagacad
 
 # Window title
 case "$TERM" in
-xterm*|rxvt*)
+xterm*|rxvt*|screen*)
     PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"'
     ;;
 *)

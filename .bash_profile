@@ -1,4 +1,3 @@
-export BASH_CONF="bash_profile"
 # if [ -e /sw/bin/init.sh ]; then
 #    source /sw/bin/init.sh
 # fi
@@ -6,6 +5,11 @@ export BASH_CONF="bash_profile"
 # Keybindings
 bind "'C-f': forward-word"
 bind "'C-b': backward-word"
+# Left / Right arrow keys. for OSX
+bind '"\e[1;5C": forward-word'
+bind '"\e[1;5D": backward-word'
+
+
 
 # don't put duplicate lines in the history. See bash(1) for more options
 export HISTCONTROL=ignoredups
@@ -28,7 +32,7 @@ export VCPROPMT_FORMAT=' on \033[34m%n\033[00m:\033[00m%[unknown]b\033[32m%m%u'
 
 # Prompt
 case "$TERM" in
-    xterm-color | xterm-256color | eterm-color | screen) color_prompt=yes;;
+    xterm-color | xterm-256color | eterm-color | screen*) color_prompt=yes;;
 esac
 if [ "$color_prompt" = yes ]; then
     PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
@@ -40,7 +44,7 @@ unset color_prompt force_color_prompt
 
 # Window title
 case "$TERM" in
-xterm*|rxvt*)
+xterm*|rxvt*|screen*)
     PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"'
     ;;
 *)
@@ -81,4 +85,33 @@ fi
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
+
+# AN go command
+alias jump='ssh -At jump.adnxs.net'
+
+function go() {
+# a function to use go on jump with a couple of improvements
+
+if [ $# -eq 0 ]; then
+      # 0 arg supplied, check if clipboard has hostname and if it looks right, ssh to it
+      h=`/usr/bin/pbpaste`
+if [ `echo $h | perl -ne 'if (/^\d{2,}\.[\w-]+\.[\w-]+\.\w{3,4}$/) {print 1;} else { print 0; }'` -eq 1 ]; then
+ssh $h
+   exit
+  fi
+fi
+
+
+if [ $# -eq 1 ]; then
+   if [ `echo $1 | perl -ne 'if (/^\d{2,}\.[\w-]+\.[\w-]+\.\w{3,4}$/) {print 1;} else { print 0; }'` -eq 1 ]; then
+  # 1 arg supplied, probably well-formed hostname as it matched regexp, so try ssh directly
+   ssh $1
+   exit
+      fi
+  fi
+
+  jump /usr/bin/go $@
+}
+
 . ~/.bashrc
+export BASH_CONF="bash_profile"

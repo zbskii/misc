@@ -83,6 +83,10 @@
 )
 (savehist-mode 1)
 
+;; save cursor position in open files
+(require 'saveplace)
+(setq-default save-place t)
+
 ;; Put autosave files in /tmp
 (setq backup-directory-alist
       `((".*" . ,temporary-file-directory)))
@@ -122,28 +126,31 @@
 
 
 ;; Flymake on-the-fly syntax checking
-(require 'flymake)
-
-;; Make temp files in system tempdir
-(defun flymake-create-temp-in-system-tempdir (filename prefix)
-  (make-temp-file (or prefix "flymake-pychecker")))
+;; Use illusori's flymkae for to fix tramp issues
+(add-to-list 'load-path "~/.emacs.d/emacs-flymake")
 (when (load "flymake" t)
+  ;; Nope, I want my copies in the system temp dir.
+  (setq flymake-run-in-place nil)
+  ;; This lets me say where my temp dir is.
+  (setq temporary-file-directory "~/.emacs.d/tmp/")
+  (setq flymake-log-level 0)
+
   (defun flymake-pyflakes-init ()
     (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                       'flymake-create-temp-in-system-tempdir))
+                       'flymake-create-temp-copy))
            (local-file (file-relative-name
                         temp-file
                         (file-name-directory buffer-file-name))))
-      (list "/Users/brett/lib/pycheckers.py" (list local-file))))
+      (list "~/lib/pycheckers.py" (list local-file))))
   ;; *Only* allow python - flymake ships with a bunch of shit turned on
-  (setq flymake-allowed-file-name-masks
-               '(("\\.py\\'" flymake-pyflakes-init)))
-)
+  (add-to-list 'flymake-allowed-file-name-masks
+               '("\\.py\\'" flymake-pyflakes-init))
+ )
 
 (defun flymake-gjslint-init ()
   "Initialize flymake for gjslint"
   (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                     'flymake-create-temp-inplace)))
+                     'flymake-create-temp-copy)))
     (list "gjslint" (list temp-file "--nosummary"))))
 (add-to-list 'flymake-allowed-file-name-masks
              '(".+\\.js$"
@@ -156,8 +163,6 @@
 
 (eval-after-load 'ruby-mode
   '(progn
-     (require 'flymake)
-
      ;; Invoke ruby with '-c' to get syntax checking
      (defun flymake-ruby-init ()
        (let* ((temp-file (flymake-init-create-temp-buffer-copy
@@ -190,10 +195,7 @@
 (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
 (require 'flymake-puppet)
 (add-hook 'puppet-mode-hook (lambda () (flymake-puppet-load)))
-
 (add-hook 'find-file-hook 'flymake-find-file-hook)
-(setq flymake-log-level 0)
-(setq flymake-gui-warnings-enabled nil)
 
 ;; haskell-mode
 (add-to-list 'load-path "~/.emacs.d/haskell-mode")
@@ -241,6 +243,54 @@
      (setq-default tab-width 4)
      ))
 
+;; PHP
+(require 'php-mode) ;; Custom php mode
+(add-hook 'php-mode-hook 'my-php-mode-stuff)
+
+(defun my-php-mode-stuff ()
+  (local-set-key (kbd "<f1>") 'my-php-function-lookup)
+  (local-set-key (kbd "<s-f1>") 'my-php-symbol-lookup))
+
+
+(defun my-php-symbol-lookup ()
+  (interactive)
+  (let ((symbol (symbol-at-point)))
+    (if (not symbol)
+        (message "No symbol at point.")
+
+      (browse-url (concat "http://php.net/manual-lookup.php?pattern="
+                          (symbol-name symbol))))))
+
+(defun my-php-function-lookup ()
+  (interactive)
+  (let* ((function (symbol-name (or (symbol-at-point)
+                                    (error "No function at point."))))
+         (buf (url-retrieve-synchronously (concat "http://php.net/manual-lookup.php?pattern=" function))))
+    (with-current-buffer buf
+      (goto-char (point-min))
+        (let (desc)
+          (when (re-search-forward "<div class=\"methodsynopsis dc-description\">\\(\\(.\\|\n\\)*?\\)</div>" nil t)
+            (setq desc
+              (replace-regexp-in-string
+                " +" " "
+                (replace-regexp-in-string
+                  "\n" ""
+                  (replace-regexp-in-string "<.*?>" "" (match-string-no-properties 1)))))
+
+            (when (re-search-forward "<p class=\"para rdfs-comment\">\\(\\(.\\|\n\\)*?\\)</p>" nil t)
+              (setq desc
+                    (concat desc "\n\n"
+                            (replace-regexp-in-string
+                             " +" " "
+                             (replace-regexp-in-string
+                              "\n" ""
+                              (replace-regexp-in-string "<.*?>" "" (match-string-no-properties 1))))))))
+
+          (if desc
+              (message desc)
+            (message "Could not extract function info. Press C-F1 to go the description."))))
+    (kill-buffer buf)))
+
 ;; Org mode
 (setq org-startup-indented t)
 
@@ -265,6 +315,7 @@
 
 (add-to-list 'load-path "~/.emacs.d/")
 (require 'grep-edit)
+
 
 ;; ido - interactively do things
 (require 'ido)
