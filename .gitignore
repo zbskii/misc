@@ -10,3 +10,5 @@
 .git
 .emacs.d/cache
 .emacs.d/tmp
+.idea
+.idea/*

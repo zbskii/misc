@@ -5,6 +5,11 @@
 (set-frame-width (selected-frame) 163)
 (split-window-horizontally)
 
+;; Implement play-sound on OSX versions of Emacs
+(unless (and (fboundp 'play-sound-internal)
+             (subrp (symbol-function 'play-sound-internal)))
+  (require 'play-sound))
+
 ;; Disable scrolling bell
 (defun my-bell-function ()
   (unless (memq this-command
@@ -12,7 +17,7 @@
               keyboard-quit mwheel-scroll down up next-line previous-line
               backward-char forward-char beginning-of-buffer
               ))
-    (ding)))
+    (play-sound-file "~/.emacs.d/sfx/smw_stomp.wav")))
 (setq ring-bell-function 'my-bell-function)
 
 ;; spaces, no tabs
@@ -290,6 +295,10 @@
               (message desc)
             (message "Could not extract function info. Press C-F1 to go the description."))))
     (kill-buffer buf)))
+
+;; PHP XDebugger
+(add-to-list 'load-path "~/.emacs.d/xdebug")
+(autoload 'geben "geben" "PHP Debugger on Emacs" t)
 
 ;; Org mode
 (setq org-startup-indented t)
