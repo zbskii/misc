@@ -25,9 +25,11 @@
 
 ;; Highlight tabs and lines > 80 cols
 (global-whitespace-mode t)
-(setq whitespace-style (quote ( tab-mark lines-tail )))
+(setq whitespace-style (quote ( tab-mark lines-tail)))
 (setq whitespace-display-mappings
  '(
+   ;; These are lists of characters to replace, so newline-mark
+   ;; replaces '10' with the sequence '182 10'
    (space-mark 32 [183] [46]) ; normal space
    (space-mark 160 [164] [95])
    (space-mark 2208 [2212] [95])
@@ -37,6 +39,17 @@
    (newline-mark 10 [182 10]) ; newlne
    (tab-mark 9 [8677 9] [92 9]) ; tab
 ))
+
+;; Dired extra commands
+(autoload 'dired-jump "dired-x"
+  "Jump to dired buffer corresponding to current buffer."
+  'interactive)
+(autoload 'dired-jump-other-window "dired-x"
+  "Like \\[dired-jump] (`dired-jump') but in other window."
+  'interactive)
+(setq dired-bind-jump t)
+(global-set-key "\C-x\C-j" 'dired-jump)
+(global-set-key "\C-x4\C-j" 'dired-jump-other-window)
 
 (column-number-mode t)
 
@@ -252,6 +265,20 @@
 (require 'php-mode) ;; Custom php mode
 (add-hook 'php-mode-hook 'my-php-mode-stuff)
 
+;; PHP_CodeSniffer
+;; If flymake_phpcs isn't found correctly, specify the full path
+(setq flymake-phpcs-command "~/bin/flymake_phpcs")
+
+;; Customize the coding standard checked by phpcs
+;;(setq flymake-phpcs-standard
+;;  "~/projects/devtools/php_codesniffer/MyCompanyStandard")
+
+;; Show the name of sniffs in warnings (eg show
+;; "Generic.CodeAnalysis.VariableAnalysis.UnusedVariable" in an unused
+;; variable warning)
+(setq flymake-phpcs-show-rule t)
+;;(require 'flymake-phpcs)
+
 (defun my-php-mode-stuff ()
   (local-set-key (kbd "<f1>") 'my-php-function-lookup)
   (local-set-key (kbd "<s-f1>") 'my-php-symbol-lookup))
@@ -299,6 +326,15 @@
 ;; PHP XDebugger
 (add-to-list 'load-path "~/.emacs.d/xdebug")
 (autoload 'geben "geben" "PHP Debugger on Emacs" t)
+(setq geben-pause-at-entry-line nil)
+
+(defun my-geben-recenter (session)
+  (interactive)
+  (let ((stack (geben-session-initmsg session)))
+         (message "GEBEN >> %s" stack)))
+
+(add-hook 'geben-session-enter-hook 'my-geben-recenter)
+
 
 ;; Org mode
 (setq org-startup-indented t)

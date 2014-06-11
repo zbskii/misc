@@ -10,11 +10,17 @@ bind '"\e[1;5C": forward-word'
 bind '"\e[1;5D": backward-word'
 
 
+export HISTFILESIZE=1000000
+export HISTSIZE=1000000
+export HISTIGNORE='ls:bg:fg:history:cd'
+export HISTTIMEFORMAT='%F %T '
 
-# don't put duplicate lines in the history. See bash(1) for more options
-export HISTCONTROL=ignoredups
-# ... and ignore same sucessive entries.
-export HISTCONTROL=ignoreboth
+# ignore same sucessive entries.
+export HISTCONTROL=ignoredups:erasedups
+
+# Append history file
+shopt -s histappend
+
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -50,6 +56,8 @@ xterm*|rxvt*|screen*)
 *)
     ;;
 esac
+
+export PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND"
 
 function gdiff() {
     opendiff $1.THIS $1.OTHER -ancestor $1.BASE -merge $1;

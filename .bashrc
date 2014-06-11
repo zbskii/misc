@@ -1,8 +1,5 @@
 export BASH_CONF="bashrc"
 # don't put duplicate lines in the history. See bash(1) for more options
-export HISTCONTROL=ignoredups
-# ... and ignore same sucessive entries.
-export HISTCONTROL=ignoreboth
 
 # Fuck flow control
 stty -ixon
@@ -16,14 +13,14 @@ export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
 
 
-# Window title
-case "$TERM" in
-xterm*|rxvt*|screen*)
-    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"'
-    ;;
-*)
-    ;;
-esac
+# # Window title
+# case "$TERM" in
+# xterm*|rxvt*|screen*)
+#     PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"'
+#     ;;
+# *)
+#     ;;
+# esac
 
 # Setting PATH for MacPython 2.6
 # The orginal version is saved in .bash_profile.pysave
