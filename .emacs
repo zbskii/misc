@@ -1,4 +1,5 @@
-(add-to-list 'load-path "~/.emacs.d")
+;; catch-all for stuff I've added over the years
+(add-to-list 'load-path "~/.emacs.d/extras")
 (setq debug-on-error t)
 ;;(setq mac-allow-anti-aliasing nil)  ;; turn off anti-aliasing
 (set-frame-height (selected-frame) 49)
@@ -6,6 +7,7 @@
 (split-window-horizontally)
 
 ;; Implement play-sound on OSX versions of Emacs
+(add-to-list 'load-path "~/.emacs.d/play-sound")
 (unless (and (fboundp 'play-sound-internal)
              (subrp (symbol-function 'play-sound-internal)))
   (require 'play-sound))
@@ -358,7 +360,6 @@
 ;; (yas/load-directory "~/.emacs.d/yasnippet-0.6.1c/snippets")
 ;; Not for aquaemacs (setq visible-bell nil)
 
-(add-to-list 'load-path "~/.emacs.d/")
 (require 'grep-edit)
 
 
@@ -415,6 +416,11 @@
 (require 'tramp)
 (setq tramp-debug-buffer t)
 (setq tramp-verbose 10)
+
+;; Powerline
+(add-to-list 'load-path "~/.emacs.d/powerline")
+(require 'powerline)
+(powerline-default-theme)
 
 ;; Keybindings
 (global-set-key (kbd "<C-tab>") 'bury-buffer)

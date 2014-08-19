@@ -1,0 +1,3 @@
+bind -e
+bind [1;5C em-next-word
+bind [1;5D ed-prev-word
