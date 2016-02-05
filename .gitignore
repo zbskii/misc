@@ -6,6 +6,7 @@
 .emacs.d/ac-comphist.dat
 .emacs.d/url/cookies
 .emacs.d/elpa/archives
+.emacs.d/elpa/**
 .emacs.d/geben/.storage
 *.elc
 .git

@@ -1,7 +1,3 @@
-# if [ -e /sw/bin/init.sh ]; then
-#    source /sw/bin/init.sh
-# fi
-
 # Keybindings
 bind "'C-f': forward-word"
 bind "'C-b': backward-word"
@@ -76,6 +72,7 @@ function pgkill() {
 alias top="top -o cpu"
 
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH:~/bin:~/src/arcanist/bin:~/.gem/ruby/1.8/bin
+export PATH=$PATH:~/src/schema-tool
 
 # Tcpdump for HTTP traffic
 alias tcpd8000="sudo tcpdump -s 0 -A -i lo0 'tcp port 8000 and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12]&0xf0)>>2)) != 0)'"
@@ -120,6 +117,12 @@ if [ $# -eq 1 ]; then
 
   jump /usr/bin/go $@
 }
+
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+    . $(brew --prefix)/etc/bash_completion
+fi
+
+export JAVA_HOME=$(/usr/libexec/java_home)
 
 . ~/.bashrc
 export BASH_CONF="bash_profile"

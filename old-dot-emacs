@@ -16,9 +16,10 @@
 (defun my-bell-function ()
   (unless (memq this-command
             '(isearch-abort abort-recursive-edit exit-minibuffer
-              keyboard-quit mwheel-scroll down up next-line previous-line
-              backward-char forward-char beginning-of-buffer
+              keyboard-quit mwheel-scroll down up next-line previous-line scroll-down-command scroll-up-command
+              backward-char forward-char end-of-buffer beginning-of-buffer keyboard-quit isearch-repeat-forward
               ))
+    ;;(message "Command that cause the bell is %s" this-command)
     (play-sound-file "~/.emacs.d/sfx/smw_stomp.wav")))
 (setq ring-bell-function 'my-bell-function)
 
@@ -27,7 +28,7 @@
 
 ;; Highlight tabs and lines > 80 cols
 (global-whitespace-mode t)
-(setq whitespace-style (quote ( tab-mark lines-tail)))
+(setq whitespace-style (quote ( face space-before-tab lines-tail)))
 (setq whitespace-display-mappings
  '(
    ;; These are lists of characters to replace, so newline-mark
@@ -123,7 +124,7 @@
              '("marmalade" . "http://marmalade-repo.org/packages/"))
 ;; For scala-mode2
 (add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+             '("melpa" . "http://melpa.org/packages/") t)
 
 (defun package-update-load-path ()
   "Update the load path for newly installed packages."
@@ -272,18 +273,20 @@
 (setq flymake-phpcs-command "~/bin/flymake_phpcs")
 
 ;; Customize the coding standard checked by phpcs
-;;(setq flymake-phpcs-standard
-;;  "~/projects/devtools/php_codesniffer/MyCompanyStandard")
+(setq flymake-phpcs-standard
+      (expand-file-name "~/AppNexus"))
 
 ;; Show the name of sniffs in warnings (eg show
 ;; "Generic.CodeAnalysis.VariableAnalysis.UnusedVariable" in an unused
 ;; variable warning)
 (setq flymake-phpcs-show-rule t)
-;;(require 'flymake-phpcs)
+(require 'flymake-phpcs)
 
 (defun my-php-mode-stuff ()
   (local-set-key (kbd "<f1>") 'my-php-function-lookup)
-  (local-set-key (kbd "<s-f1>") 'my-php-symbol-lookup))
+  (local-set-key (kbd "<s-f1>") 'my-php-symbol-lookup)
+  (setq indent-tabs-mode t) ;; Waaaaa for appnexus
+)
 
 
 (defun my-php-symbol-lookup ()
@@ -373,7 +376,7 @@
   '("\\` " "^\*Mess" "^\*Back" ".*Completion" "^\*Ido" "^\*trace"
 
      "^\*compilation" "^\*GTAGS" "^session\.*" "^\*")
-  ido-work-directory-list '("~/" "~/Desktop" "~/Documents" "~/src/janrain")
+  ido-work-directory-list '("~/" "~/Desktop" "~/Documents")
   ido-case-fold  t                 ; be case-insensitive
 
   ido-enable-last-directory-history t ; remember last used dirs
@@ -416,11 +419,13 @@
 (require 'tramp)
 (setq tramp-debug-buffer t)
 (setq tramp-verbose 10)
+(setq tramp-default-method "scpx") ;; fixes problems with ControlMaster
 
 ;; Powerline
 (add-to-list 'load-path "~/.emacs.d/powerline")
 (require 'powerline)
 (powerline-default-theme)
+(add-hook 'desktop-after-read-hook 'powerline-reset) ;; fix for Emacs 24.4
 
 ;; Keybindings
 (global-set-key (kbd "<C-tab>") 'bury-buffer)
@@ -444,3 +449,4 @@
  '(flymake-warnline ((((class color) (background dark)) (:background "#363636")))))
 
 (put 'narrow-to-page 'disabled nil)
+(put 'upcase-region 'disabled nil)

@@ -33,7 +33,7 @@ function gdiff() {
 
 export PATH=$PATH:~/bin:~/Library/Haskell/ghc-7.0.3/lib/hlint-1.8.13/bin
 export PATH="$HOME/Library/Haskell/bin:$PATH"
-export JAVA_HOME=$(/usr/libexec/java_home)
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 export JAVA_TOOL_OPTIONS='-Dfile.encoding=UTF-8' # WTF
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 # z
