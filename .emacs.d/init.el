@@ -5,14 +5,10 @@
 ;; Package config
 (require 'package)
 (add-to-list 'package-archives
-             '("gnu" . "http://elpa.gnu.org/packages/"))
-;; For scala-mode2
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/") t)
-
+             '("melpa" . "https://melpa.org/packages/") t)
+(package-initialize)
 
 ;; install use-package
-(package-initialize)
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
@@ -116,35 +112,56 @@
 (setq mouse-wheel-progressive-speed nil)
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
 
-(setq term-ansi-default-program "/bin/bash -l")
+;; (setq term-ansi-default-program "/bin/bash -l")
 
 (desktop-save-mode 1)
 
 (setq-default show-trailing-whitespace t)
 
-;; auto-complete mode
-
-(use-package auto-complete
-    :ensure t
-    :config
-    (ac-config-default)
-    (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
-    (global-auto-complete-mode t)
-    (setq ac-use-quick-help t)
-    (set-face-background 'ac-candidate-face "grey20")
-    (set-face-underline 'ac-candidate-face "#111111")
-    (set-face-background 'ac-selection-face "#141414"))
-
 
 ;; save cursor position in open files
-(require 'saveplace)
-(setq-default save-place t)
-;; Put autosave files in /tmp
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
+;; (require 'saveplace)
+;; (setq-default save-place t)
+;; ;; Put autosave files in /tmp
+;; (setq backup-directory-alist
+;;       `((".*" . ,temporary-file-directory)))
+;; (setq auto-save-file-name-transforms
+;;       `((".*" ,temporary-file-directory t)))
 
+;; Packages
+;; Color themes
+;; (use-package color-theme-solarized
+;;   :ensure t)
+
+;; (use-package twilight-theme
+;;   :ensure t
+;;   :config)
+
+(use-package better-defaults
+  :ensure t)
+
+(use-package color-theme
+  :ensure t
+  :config
+  (color-theme-initialize)
+  (load-file "~/.emacs.d/themes/color-theme-twilight.el")
+  (color-theme-twilight))
+
+;; auto-complete mode
+(use-package auto-complete
+  :ensure t
+  :config
+  (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+  (require 'auto-complete-config)
+  (ac-config-default)
+  (global-auto-complete-mode t)
+  (setq ac-use-quick-help t)
+  (set-face-background 'ac-candidate-face "grey20")
+  (set-face-underline 'ac-candidate-face "#111111")
+  (set-face-background 'ac-selection-face "#141414"))
+
+(use-package haskell-mode
+  :ensure t)
 
 (use-package flycheck
   :ensure t
@@ -162,13 +179,20 @@
   (eval-after-load 'flycheck
     '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
 
+(use-package flycheck-haskell
+  :ensure t
+  :config
+  (eval-after-load 'flycheck
+    '(add-hook 'flycheck-mode-hook #'flycheck-haskell-setup)))
+
 (use-package flyspell-lazy
   :ensure t)
 
+;; Fix incompatibility with flyspell
+(ac-flyspell-workaround)
+
 (use-package php-mode
-  :ensure t
-  :config
-  (add-hook 'php-mode-hook 'my-php-mode-stuff))
+  :ensure t)
 
 (defun my-php-mode-stuff ()
   (local-set-key (kbd "<f1>") 'my-php-function-lookup)
@@ -215,60 +239,88 @@
             (mbessage "Could not extract function info. Press C-F1 to go the description."))))
     (kill-buffer buf)))
 
-;; PHP XDebugger
-(use-package geben
-  :ensure t
-  :config
-  (setq geben-pause-at-entry-line nil)
-  )
-
-;; Color themes
-(use-package color-theme
-  :ensure t
-  :config
-  (load-file "~/.emacs.d/themes/color-theme-twilight.el")
-  (load-file "~/.emacs.d/themes/zenburn.el")
-  (color-theme-initialize)
-  (color-theme-twilight))
-
-;; YASnippet
-;; (add-to-list 'load-path "~/.emacs.d/yasnippet-0.6.1c")
-;; (require 'yasnippet) ;; not yasnippet-bundle
-;; (yas/initialize)
-;; (yas/load-directory "~/.emacs.d/yasnippet-0.6.1c/snippets")
-;; Not for aquaemacs (setq visible-bell nil)
-
-;;(require 'grep-edit) - need to try grep-a-lot
-
-
-;; ido - interactively do things
-(require 'ido)
-(ido-mode 'both) ;; for buffers and files
-(setq
-  ido-save-directory-list-file "~/.emacs.d/cache/ido.last"
-
-  ido-ignore-buffers ;; ignore these guys
-  '("\\` " "^\*Mess" "^\*Back" ".*Completion" "^\*Ido" "^\*trace"
-
-     "^\*compilation" "^\*GTAGS" "^session\.*" "^\*")
-  ido-work-directory-list '("~/" "~/Desktop" "~/Documents")
-  ido-case-fold  t                 ; be case-insensitive
-
-  ido-enable-last-directory-history t ; remember last used dirs
-  ido-max-work-directory-list 30   ; should be enough
-  ido-max-work-file-list      50   ; remember many
-  ido-use-filename-at-point nil    ; don't use filename at point (annoying)
-  ido-use-url-at-point nil         ; don't use url at point (annoying)
-
-  ido-enable-flex-matching t     ; don't try to be too smart
-  ido-max-prospects 8              ; don't spam my minibuffer
-  ido-confirm-unique-completion nil) ; wait for RET, even with unique completion
-;; when using ido, the confirmation is rather annoying...
-(setq confirm-nonexistent-file-or-buffer nil)
-
 ;; magit
 (use-package magit
   :ensure t)
+
+;; Powerline
+(use-package powerline
+             :ensure t
+             :config
+             (powerline-default-theme))
+
+(use-package shell-pop
+  :ensure t)
+
+(use-package sbt-mode
+  :ensure t
+  :config)
+
+(use-package scala-mode2
+  :ensure t
+  :config
+  (add-hook 'scala-mode-hook 'ensime-scala-mode-hook))
+
+(use-package ensime
+  :ensure t
+  :config
+  (add-hook 'scala-mode-hook 'ensime-scala-mode-hook))
+
+;; ;; YASnippet
+(use-package yasnippet
+  :ensure t
+  :config
+  (yas-global-mode 1))
+
+;; PHP XDebugger
+;; PUT THIS LAST.  Not really sure why but this breaks everything
+;; (autoload 'geben)
+;; (use-package geben
+;;   :ensure t
+;;   :config
+;;   (setq geben-pause-at-entry-line nil))
+
+(use-package helm
+  :ensure t
+  :config
+  (require 'helm-config)
+  (helm-mode 1))
+(global-set-key (kbd "M-x")                          'undefined)
+(global-set-key (kbd "M-x")                          'helm-M-x)
+(global-set-key (kbd "C-x r b")                      'helm-filtered-bookmarks)
+(global-set-key (kbd "C-x C-f")                      'helm-find-files)
+(global-set-key (kbd "M-y")                          'helm-show-kill-ring)
+
+;; ido - interactively do things
+;; (require 'ido)
+;; (ido-mode 'both) ;; for buffers and files
+;; (setq
+;;   ido-save-directory-list-file "~/.emacs.d/cache/ido.last"
+
+;;   ido-ignore-buffers ;; ignore these guys
+;;   '("\\` " "^\*Mess" "^\*Back" ".*Completion" "^\*Ido" "^\*trace"
+
+;;      "^\*compilation" "^\*GTAGS" "^session\.*" "^\*")
+;;   ido-work-directory-list '("~/" "~/Desktop" "~/Documents")
+;;   ido-case-fold  t                 ; be case-insensitive
+
+;;   ido-enable-last-directory-history t ; remember last used dirs
+;;   ido-max-work-directory-list 30   ; should be enough
+;;   ido-max-work-file-list      50   ; remember many
+;;   ido-use-filename-at-point nil    ; don't use filename at point (annoying)
+;;   ido-use-url-at-point nil         ; don't use url at point (annoying)
+
+;;   ido-enable-flex-matching t     ; don't try to be too smart
+;;   ido-max-prospects 8              ; don't spam my minibuffer
+;;   ido-confirm-unique-completion nil) ; wait for RET, even with unique completion
+;; ;; when using ido, the confirmation is rather annoying...
+;; (setq confirm-nonexistent-file-or-buffer nil)
+
+;; Show count of isearch results
+(use-package anzu
+  :ensure t
+  :config
+  (global-anzu-mode t))
 
 ;; fringe bitmaps
 (setq default-indicate-empty-lines t)
@@ -289,24 +341,12 @@
 (setq tramp-verbose 10)
 (setq tramp-default-method "scpx") ;; fixes problems with ControlMaster
 
-;; Powerline
-(use-package powerline
-    :config
-    (powerline-default-theme))
+;; ;;(require 'grep-edit) - need to try grep-a-lot
 
 ;; Keybindings
 (global-set-key (kbd "<C-tab>") 'bury-buffer)
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#141414" :foreground "#F8F8F8" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "apple" :family "Menlo"))))
- '(flymake-errline ((((class color) (background dark)) (:background "#332323" :foreground "#e37170"))))
- '(flymake-warnline ((((class color) (background dark)) (:background "#363636")))))
-
 (set-frame-height (selected-frame) 49)
 (set-frame-width (selected-frame) 163)
 
 (split-window-horizontally)
+

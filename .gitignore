@@ -1,6 +1,8 @@
 .emacs.d/history
 .emacs.d/auto-save-list
 .emacs.d/tramp
+.emacs.d/places
+.emacs.d/ensime
 .emacs.d/.emacs.desktop
 .emacs.d/.emacs.desktop.lock
 .emacs.d/ac-comphist.dat
