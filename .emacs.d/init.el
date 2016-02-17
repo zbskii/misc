@@ -1,3 +1,5 @@
+;;; Package -- Brett Carter's Emacs init.el
+
 ;;; load custom settings
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file 'noerror)
@@ -118,24 +120,7 @@
 
 (setq-default show-trailing-whitespace t)
 
-
-;; save cursor position in open files
-;; (require 'saveplace)
-;; (setq-default save-place t)
-;; ;; Put autosave files in /tmp
-;; (setq backup-directory-alist
-;;       `((".*" . ,temporary-file-directory)))
-;; (setq auto-save-file-name-transforms
-;;       `((".*" ,temporary-file-directory t)))
-
 ;; Packages
-;; Color themes
-;; (use-package color-theme-solarized
-;;   :ensure t)
-
-;; (use-package twilight-theme
-;;   :ensure t
-;;   :config)
 
 (use-package better-defaults
   :ensure t)
@@ -185,8 +170,13 @@
   (eval-after-load 'flycheck
     '(add-hook 'flycheck-mode-hook #'flycheck-haskell-setup)))
 
-(use-package flyspell-lazy
+(use-package helm-flyspell
   :ensure t)
+
+(use-package flyspell-lazy
+  :ensure t
+  :config
+  (define-key flyspell-mode-map (kbd "C-;") 'helm-flyspell-correct))
 
 ;; Fix incompatibility with flyspell
 (ac-flyspell-workaround)
@@ -274,11 +264,12 @@
 
 ;; PHP XDebugger
 ;; PUT THIS LAST.  Not really sure why but this breaks everything
-;; (autoload 'geben)
-;; (use-package geben
+;;(autoload 'geben)
+;;(use-package geben
 ;;   :ensure t
 ;;   :config
 ;;   (setq geben-pause-at-entry-line nil))
+(setq geben-pause-at-entry-line nil)
 
 (use-package helm
   :ensure t
@@ -350,3 +341,11 @@
 
 (split-window-horizontally)
 
+;; Put autosave files in /tmp
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
+(provide 'init)
+;;; init.el ends here
