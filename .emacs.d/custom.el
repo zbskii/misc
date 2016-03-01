@@ -3,6 +3,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ac-use-menu-map t)
  '(column-number-mode t)
  '(custom-safe-themes
    (quote
@@ -12,6 +13,12 @@
  '(flycheck-phpcs-standard "~/AppNexus")
  '(package-enable-at-startup nil)
  '(scroll-bar-mode nil)
+ '(shell-pop-full-span t)
+ '(shell-pop-shell-type
+   (quote
+    ("ansi-term" "*ansi-term*"
+     (lambda nil
+       (ansi-term shell-pop-term-shell)))))
  '(shell-pop-universal-key "C-t")
  '(tool-bar-mode nil))
 
@@ -20,6 +27,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "#141414" :foreground "#F8F8F8" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 130 :width normal :foundry "nil" :family "Source Code Pro"))))
  '(flycheck-error ((t (:background "#332323" :foreground "#e37170"))))
  '(flycheck-error-list-warning ((t (:inherit warning :background "#363636"))))
  '(flymake-errline ((((class color) (background dark)) (:background "#332323" :foreground "#e37170"))))

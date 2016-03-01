@@ -1,9 +1,5 @@
 ;;; Package -- Brett Carter's Emacs init.el
 
-;;; load custom settings
-(setq custom-file "~/.emacs.d/custom.el")
-(load custom-file 'noerror)
-
 ;; Package config
 (require 'package)
 (add-to-list 'package-archives
@@ -72,8 +68,11 @@
 (delete-selection-mode t)
 
 ;; Highlight tabs and lines > 80 cols
-(global-whitespace-mode t)
-(setq whitespace-style (quote ( face space-before-tab lines-tail)))
+(require 'whitespace)
+(global-whitespace-mode 1)
+(setq whitespace-global-modes (not "PHP/l")) ;; Disable ws mode for php
+;;(setq whitespace-style (quote (tabs space-mark tab-mark newline-mark)))
+(setq whitespace-style (quote ( face space-before-tab tabs tab-mark  lines-tail)))
 (setq whitespace-display-mappings
  '(
    ;; These are lists of characters to replace, so newline-mark
@@ -113,8 +112,6 @@
 ;; Fix mousewheel scrolling
 (setq mouse-wheel-progressive-speed nil)
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
-
-;; (setq term-ansi-default-program "/bin/bash -l")
 
 (desktop-save-mode 1)
 
@@ -181,6 +178,30 @@
 ;; Fix incompatibility with flyspell
 (ac-flyspell-workaround)
 
+;; Completion words longer than 4 characters
+(use-package ac-ispell
+  :ensure t
+  :config
+  (custom-set-variables
+   '(ac-ispell-requires 4)
+   '(ac-ispell-fuzzy-limit 2))
+  (eval-after-load "auto-complete"
+  '(progn
+      (ac-ispell-setup))))
+
+(eval-after-load "auto-complete"
+  '(progn
+      (ac-ispell-setup)))
+
+;; Completion words longer than 4 characters
+(custom-set-variables
+  '(ac-ispell-requires 4)
+  '(ac-ispell-fuzzy-limit 2))
+
+(eval-after-load "auto-complete"
+  '(progn
+      (ac-ispell-setup)))
+
 (use-package php-mode
   :ensure t)
 
@@ -239,9 +260,6 @@
              :config
              (powerline-default-theme))
 
-(use-package shell-pop
-  :ensure t)
-
 (use-package sbt-mode
   :ensure t
   :config)
@@ -275,12 +293,15 @@
   :ensure t
   :config
   (require 'helm-config)
-  (helm-mode 1))
-(global-set-key (kbd "M-x")                          'undefined)
-(global-set-key (kbd "M-x")                          'helm-M-x)
-(global-set-key (kbd "C-x r b")                      'helm-filtered-bookmarks)
-(global-set-key (kbd "C-x C-f")                      'helm-find-files)
-(global-set-key (kbd "M-y")                          'helm-show-kill-ring)
+  (helm-mode 1)
+  (setq helm-buffers-fuzzy-matching t
+        helm-recentf-fuzzy-match    t)
+  (global-set-key (kbd "M-x")                          'undefined)
+  (global-set-key (kbd "M-x")                          'helm-M-x)
+  (global-set-key (kbd "C-x r b")                      'helm-filtered-bookmarks)
+  (global-set-key (kbd "C-x C-f")                      'helm-find-files)
+  (global-set-key (kbd "C-x b")                        'helm-mini)
+  (global-set-key (kbd "M-y")                          'helm-show-kill-ring))
 
 ;; ido - interactively do things
 ;; (require 'ido)
@@ -312,6 +333,17 @@
   :ensure t
   :config
   (global-anzu-mode t))
+
+(use-package mo-git-blame
+  :ensure t
+  :config
+  (autoload 'mo-git-blame-file "mo-git-blame" nil t)
+  (autoload 'mo-git-blame-current "mo-git-blame" nil t)
+  (global-set-key [?\C-c ?g ?c] 'mo-git-blame-current)
+  (global-set-key [?\C-c ?g ?f] 'mo-git-blame-file))
+
+(use-package shell-pop
+  :ensure t)
 
 ;; fringe bitmaps
 (setq default-indicate-empty-lines t)
@@ -347,5 +379,8 @@
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
+;;; load custom settings
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
 (provide 'init)
 ;;; init.el ends here
