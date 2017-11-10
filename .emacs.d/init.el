@@ -292,12 +292,15 @@
   (go-guru-hl-identifier-mode)                   ; highlight identifiers
   (require 'go-autocomplete)
   (auto-complete-mode 1)                         ; Enable auto-complete mode
-  :bind (("M-." . godef-jump))
-         ("M-*" . pop-tag-mark)                 ; Return from whence you came
-         ("M-p" . compile)                      ; Invoke compiler
-         ("M-P" . recompile)                    ; Redo most recent compile cmd
-         ("M-]" . next-error)                   ; Go to next error (or msg)
-         ("M-[" . previous-error))              ; Go to previous error or msg
+  (add-hook 'go-mode-hook (lambda ()
+                            (local-set-key (kbd "C-c C-k") 'godoc-at-point)
+                            (local-set-key (kbd "M-.") 'godef-jump)
+                            (local-set-key (kbd "M-*") 'pop-tag-mark)
+                            (local-set-key (kbd "M-p") 'compile)
+                            (local-set-key (kbd "M-P") 'recompile)
+                            (local-set-key (kbd "M-]") 'next-error)
+                            (local-set-key (kbd "M-[") 'previous-error)))
+)
 
 ;; go-guru
 (use-package go-guru
