@@ -94,7 +94,7 @@ fi
 # AN go command
 alias jump='ssh -At jump.adnxs.net'
 
-function go() {
+function g() {
 # a function to use go on jump with a couple of improvements
 
 if [ $# -eq 0 ]; then

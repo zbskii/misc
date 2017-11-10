@@ -42,3 +42,7 @@ PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 if [ -f $(brew --prefix)/etc/bash_completion ]; then
   . $(brew --prefix)/etc/bash_completion
 fi
+
+
+eval "$(docker-machine env an-vm 2> /dev/null)"
+alias dc=docker-compose

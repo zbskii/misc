@@ -1,5 +1,18 @@
 ;;; Package -- Brett Carter's Emacs init.el
 
+;; Paths are set in variable customizations
+;; (setenv "PATH"
+;;   (concat
+;;    "/usr/local/bin/" ":"
+;;    "/usr/local/git/bin/" ":"
+;;    "/Library/Frameworks/Python.framework/Versions/Current/bin/" ":"
+;;    "/usr/local/go/bin/" ":"
+;;    "${HOME}/bin" ":"
+;;    "${HOME}/go/bin" ":"
+;;    (getenv "PATH")
+;;   )
+;;   )
+
 ;; Package config
 (require 'package)
 (add-to-list 'package-archives
@@ -20,25 +33,25 @@
 (column-number-mode t)
 
 ;; Search path for executables
-(setq exec-path (append exec-path
-           '("/usr/local/bin/")))
-(setq exec-path (append exec-path
-           '("/usr/local/git/bin/")))
-(setq exec-path (append exec-path
-           '("/Library/Frameworks/Python.framework/Versions/Current/bin/")))
-(setq exec-path (append exec-path
-           '("~/bin")))
+;; (setq exec-path (append exec-path
+;;                         '("/usr/local/bin/")))
+;; (setq exec-path (append exec-path
+;;                         '("/usr/local/git/bin/")))
+;; (setq exec-path (append exec-path
+;;                         '("/usr/local/go/bin/")))
+;; (setq exec-path (append exec-path
+;;                         '("/Library/Frameworks/Python.framework/Versions/Current/bin/")))
+;; (setq exec-path (append exec-path
+;;                         '("~/bin/")))
 
-(setenv "PATH"
-  (concat
-   "/usr/local/bin/" ":"
-   "/usr/local/git/bin/" ":"
-   "/Library/Frameworks/Python.framework/Versions/Current/bin/" ":"
-   "~/bin" ":"
-   (getenv "PATH")
-  )
-)
+
 (savehist-mode 1)
+
+;; Zoom in and out globally instead of buffer by buffer
+(defadvice text-scale-increase (around all-buffers (arg) activate)
+  (dolist (buffer (buffer-list))
+    (with-current-buffer buffer
+      ad-do-it)))
 
 ;; Implement play-sound on OSX versions of Emacs
 (add-to-list 'load-path "~/.emacs.d/play-sound")
@@ -56,11 +69,17 @@
     ;;(message "Command that cause the bell is %s" this-command)
     (play-sound-file "~/.emacs.d/sfx/smw_stomp.wav")))
 (setq ring-bell-function 'my-bell-function)
+;; fuck it, disable the bell.
+(setq ring-bell-function 'ignore)
 
 ;; spaces, no tabs
 (setq-default indent-tabs-mode nil)
 
+;; the blinking cursor is nothing, but an annoyance
+(blink-cursor-mode -1)
+
 ; automatically pair quotes and such
+; Should really try https://github.com/Fuco1/smartparens
 (electric-pair-mode t)
 ; highlight the current line
 (global-hl-line-mode)
@@ -122,12 +141,24 @@
 (use-package better-defaults
   :ensure t)
 
-(use-package color-theme
+(use-package twilight-anti-bright-theme
   :ensure t
   :config
-  (color-theme-initialize)
-  (load-file "~/.emacs.d/themes/color-theme-twilight.el")
-  (color-theme-twilight))
+  ;;(load-theme 'twilight-anti-bright)
+ )
+
+;; (use-package twilight-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'twilight))
+
+
+;; (use-package color-theme
+;;   :ensure t
+;;   :config
+;;   (color-theme-initialize)
+;;   (load-file "~/.emacs.d/themes/color-theme-twilight.el")
+;;   (color-theme-twilight))
 
 ;; auto-complete mode
 (use-package auto-complete
@@ -250,6 +281,28 @@
             (mbessage "Could not extract function info. Press C-F1 to go the description."))))
     (kill-buffer buf)))
 
+(use-package go-autocomplete
+  :ensure t)
+
+;; golang
+(use-package go-mode
+  :ensure t
+  :config
+  (setq gofmt-command "goimports")               ; gofmt uses invokes goimports
+  (go-guru-hl-identifier-mode)                   ; highlight identifiers
+  (require 'go-autocomplete)
+  (auto-complete-mode 1)                         ; Enable auto-complete mode
+  :bind (("M-." . godef-jump))
+         ("M-*" . pop-tag-mark)                 ; Return from whence you came
+         ("M-p" . compile)                      ; Invoke compiler
+         ("M-P" . recompile)                    ; Redo most recent compile cmd
+         ("M-]" . next-error)                   ; Go to next error (or msg)
+         ("M-[" . previous-error))              ; Go to previous error or msg
+
+;; go-guru
+(use-package go-guru
+  :ensure t)
+
 ;; magit
 (use-package magit
   :ensure t)
@@ -296,6 +349,7 @@
   (helm-mode 1)
   (setq helm-buffers-fuzzy-matching t
         helm-recentf-fuzzy-match    t)
+  (helm-autoresize-mode t)
   (global-set-key (kbd "M-x")                          'undefined)
   (global-set-key (kbd "M-x")                          'helm-M-x)
   (global-set-key (kbd "C-x r b")                      'helm-filtered-bookmarks)
@@ -303,44 +357,19 @@
   (global-set-key (kbd "C-x b")                        'helm-mini)
   (global-set-key (kbd "M-y")                          'helm-show-kill-ring))
 
-;; ido - interactively do things
-;; (require 'ido)
-;; (ido-mode 'both) ;; for buffers and files
-;; (setq
-;;   ido-save-directory-list-file "~/.emacs.d/cache/ido.last"
-
-;;   ido-ignore-buffers ;; ignore these guys
-;;   '("\\` " "^\*Mess" "^\*Back" ".*Completion" "^\*Ido" "^\*trace"
-
-;;      "^\*compilation" "^\*GTAGS" "^session\.*" "^\*")
-;;   ido-work-directory-list '("~/" "~/Desktop" "~/Documents")
-;;   ido-case-fold  t                 ; be case-insensitive
-
-;;   ido-enable-last-directory-history t ; remember last used dirs
-;;   ido-max-work-directory-list 30   ; should be enough
-;;   ido-max-work-file-list      50   ; remember many
-;;   ido-use-filename-at-point nil    ; don't use filename at point (annoying)
-;;   ido-use-url-at-point nil         ; don't use url at point (annoying)
-
-;;   ido-enable-flex-matching t     ; don't try to be too smart
-;;   ido-max-prospects 8              ; don't spam my minibuffer
-;;   ido-confirm-unique-completion nil) ; wait for RET, even with unique completion
-;; ;; when using ido, the confirmation is rather annoying...
-;; (setq confirm-nonexistent-file-or-buffer nil)
-
 ;; Show count of isearch results
 (use-package anzu
   :ensure t
   :config
   (global-anzu-mode t))
 
-(use-package mo-git-blame
-  :ensure t
-  :config
-  (autoload 'mo-git-blame-file "mo-git-blame" nil t)
-  (autoload 'mo-git-blame-current "mo-git-blame" nil t)
-  (global-set-key [?\C-c ?g ?c] 'mo-git-blame-current)
-  (global-set-key [?\C-c ?g ?f] 'mo-git-blame-file))
+;; (use-package mo-git-blame
+;;   :ensure t
+;;   :config
+;;   (autoload 'mo-git-blame-file "mo-git-blame" nil t)
+;;   (autoload 'mo-git-blame-current "mo-git-blame" nil t)
+;;   (global-set-key [?\C-c ?g ?c] 'mo-git-blame-current)
+;;   (global-set-key [?\C-c ?g ?f] 'mo-git-blame-file))
 
 (use-package shell-pop
   :ensure t)
@@ -384,3 +413,4 @@
 (load custom-file)
 (provide 'init)
 ;;; init.el ends here
+(put 'downcase-region 'disabled nil)

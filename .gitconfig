@@ -39,5 +39,8 @@
     # list branches by age
     list-branches = "!for k in `git branch -r|awk '{print $1}'`;do echo `git show --pretty=format:\"%Cgreen%ci %Cblue%cr %Cred%cn %Creset\" $k|head -n 1`\t$k;done|sort -r"
 
+    # Pretty changelog by user for releases
+    ul = "!f() { git log --format='%ae' ${@} | sort | uniq | cut -d'@' -f1 | while read u;do echo @$u;done }; f"
+
 [gist]
 	private = yes
