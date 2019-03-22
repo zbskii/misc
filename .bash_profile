@@ -126,3 +126,7 @@ export JAVA_HOME=$(/usr/libexec/java_home)
 
 . ~/.bashrc
 export BASH_CONF="bash_profile"
+export PATH="/usr/local/opt/node@6/bin:$PATH"
+export PATH="/usr/local/opt/php@7.0/bin:$PATH"
+export PATH="/usr/local/opt/php@7.0/sbin:$PATH"
+export PATH=$PATH:$HOME/.composer/vendor/bin

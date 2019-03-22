@@ -22,10 +22,7 @@ export LSCOLORS=ExFxCxDxBxegedabagacad
 #     ;;
 # esac
 
-# Setting PATH for MacPython 2.6
-# The orginal version is saved in .bash_profile.pysave
-PATH="/Library/Frameworks/Python.framework/Versions/2.6/bin:${PATH}"
-export PATH
+export PATH="/usr/local/bin/python:$PATH"
 
 function gdiff() {
     opendiff $1.THIS $1.OTHER -ancestor $1.BASE -merge $1;
@@ -46,3 +43,5 @@ fi
 
 eval "$(docker-machine env an-vm 2> /dev/null)"
 alias dc=docker-compose
+export PATH=$PATH:/usr/local/Cellar/mysql-client/5.7.23/bin/
+source <(kubectl completion bash)

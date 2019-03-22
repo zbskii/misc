@@ -10,6 +10,7 @@
 .emacs.d/elpa/archives
 .emacs.d/elpa/
 .emacs.d/elpa/**
+.emacs.d/elpa/archives/**
 .emacs.d/geben/.storage
 *.elc
 .git
@@ -19,3 +20,7 @@
 .idea/*
 1.17*
 current
+.emacs.d/*backup*
+.emacs.d/ido.last
+.emacs.d/recentf
+
