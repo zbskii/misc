@@ -126,3 +126,5 @@ export JAVA_HOME=$(/usr/libexec/java_home)
 
 . ~/.bashrc
 export BASH_CONF="bash_profile"
+export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+export PATH="/usr/local/opt/mysql-client/bin:$PATH"
