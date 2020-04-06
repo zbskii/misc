@@ -128,3 +128,7 @@ export JAVA_HOME=$(/usr/libexec/java_home)
 export BASH_CONF="bash_profile"
 export PATH="/usr/local/opt/python/libexec/bin:$PATH"
 export PATH="/usr/local/opt/mysql-client/bin:$PATH"
+export PATH="/usr/local/opt/node@6/bin:$PATH"
+export PATH="/usr/local/opt/php@7.0/bin:$PATH"
+export PATH=$PATH:$HOME/.composer/vendor/bin
+

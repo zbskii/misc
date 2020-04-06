@@ -1,18 +1,5 @@
 ;;; Package -- Brett Carter's Emacs init.el
 
-;; Paths are set in variable customizations
-;; (setenv "PATH"
-;;   (concat
-;;    "/usr/local/bin/" ":"
-;;    "/usr/local/git/bin/" ":"
-;;    "/Library/Frameworks/Python.framework/Versions/Current/bin/" ":"
-;;    "/usr/local/go/bin/" ":"
-;;    "${HOME}/bin" ":"
-;;    "${HOME}/go/bin" ":"
-;;    (getenv "PATH")
-;;   )
-;;   )
-
 ;; Package config
 (require 'package)
 (add-to-list 'package-archives
@@ -36,7 +23,7 @@
 ;; (setq exec-path (append exec-path
 ;;                         '("/usr/local/bin/")))
 ;; (setq exec-path (append exec-path
-;;                         '("/usr/local/git/bin/")))
+;;                          '("~/.composer/vendor/bin")))
 ;; (setq exec-path (append exec-path
 ;;                         '("/usr/local/go/bin/")))
 ;; (setq exec-path (append exec-path
@@ -138,6 +125,14 @@
 
 ;; Packages
 
+;; inherit PATH from shell
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  (when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
+  )
+
 (use-package better-defaults
   :ensure t)
 
@@ -179,7 +174,9 @@
 (use-package flycheck
   :ensure t
   :config
-  (add-hook 'after-init-hook #'global-flycheck-mode))
+  (setq flycheck-phpcs-standard "~/AppNexus")
+  (add-hook 'after-init-hook #'global-flycheck-mode)
+  )
 
 (use-package flycheck-color-mode-line
   :ensure t
@@ -306,6 +303,12 @@
 (use-package go-guru
   :ensure t)
 
+(use-package flycheck-gometalinter
+  :ensure t
+  :config
+  (progn
+    (flycheck-gometalinter-setup)))
+
 ;; magit
 (use-package magit
   :ensure t)
@@ -410,6 +413,10 @@
       `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
+
+;; Copy the backup file in place to avoid changing inode - this messes
+;; up docker mounts otherwise
+(setq backup-by-copying t)
 
 ;;; load custom settings
 (setq custom-file "~/.emacs.d/custom.el")

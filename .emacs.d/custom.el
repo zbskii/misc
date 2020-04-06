@@ -11,17 +11,15 @@
    (quote
     ("95db78d85e3c0e735da28af774dfa59308db832f84b8a2287586f5b4f21a7a5b" "51e228ffd6c4fff9b5168b31d5927c27734e82ec61f414970fc6bcce23bc140d" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" default)))
  '(desktop-restore-eager 5)
- '(exec-path
-   (quote
-    ("/usr/bin" "/bin" "/usr/sbin" "/sbin" "/Applications/Emacs.app/Contents/MacOS/bin-x86_64-10_9" "/Applications/Emacs.app/Contents/MacOS/libexec-x86_64-10_9" "/Applications/Emacs.app/Contents/MacOS/libexec" "/Applications/Emacs.app/Contents/MacOS/bin" "/usr/local/bin/" "/usr/local/go/bin/" "/usr/local/git/bin/" "/Library/Frameworks/Python.framework/Versions/Current/bin/" "~/go/bin/" "~/bin/")))
- '(flycheck-php-executable "/usr/local/bin/php")
- '(flycheck-php-phpcs-executable "/usr/local/bin/phpcs")
+ '(ediff-diff-options "-w")
+ '(flycheck-php-phpcs-executable nil)
+ '(flycheck-php-phpmd-executable nil)
  '(flycheck-phpcs-standard "~/AppNexus")
  '(flycheck-phpmd-rulesets (quote ("design" "unusedcode")))
  '(package-enable-at-startup nil)
  '(package-selected-packages
    (quote
-    (go-autocomplete go-guru zenburn-theme use-package twilight-theme twilight-anti-bright-theme solarized-theme shell-pop scala-mode2 powerline php-mode mo-git-blame magit js2-mode helm-flyspell go-mode git-timemachine geben flyspell-lazy flycheck-pos-tip flycheck-haskell flycheck-color-mode-line ensime csv-mode color-theme-solarized better-defaults anzu ac-ispell)))
+    (flycheck-gometalinter go-autocomplete go-guru zenburn-theme use-package twilight-theme twilight-anti-bright-theme solarized-theme shell-pop scala-mode2 powerline php-mode mo-git-blame magit js2-mode helm-flyspell go-mode git-timemachine geben flyspell-lazy flycheck-pos-tip flycheck-haskell flycheck-color-mode-line ensime csv-mode color-theme-solarized better-defaults anzu ac-ispell)))
  '(powerline-default-separator (quote utf-8))
  '(scroll-bar-mode nil)
  '(shell-pop-full-span t)

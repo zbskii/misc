@@ -44,3 +44,5 @@
 
 [gist]
 	private = yes
+[rerere]
+	enabled = true
