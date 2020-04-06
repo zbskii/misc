@@ -319,14 +319,6 @@
              :config
              (powerline-default-theme))
 
-(use-package sbt-mode
-  :ensure t
-  :config)
-
-(use-package scala-mode2
-  :ensure t
-  :config
-  (add-hook 'scala-mode-hook 'ensime-scala-mode-hook))
 
 (use-package ensime
   :ensure t
