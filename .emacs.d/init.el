@@ -309,6 +309,11 @@
   (progn
     (flycheck-gometalinter-setup)))
 
+(use-package js2-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist (cons (rx ".js" eos) 'js2-mode)))
+
 ;; magit
 (use-package magit
   :ensure t)
@@ -320,10 +325,6 @@
              (powerline-default-theme))
 
 
-(use-package ensime
-  :ensure t
-  :config
-  (add-hook 'scala-mode-hook 'ensime-scala-mode-hook))
 
 ;; ;; YASnippet
 (use-package yasnippet
@@ -338,7 +339,7 @@
 ;;   :ensure t
 ;;   :config
 ;;   (setq geben-pause-at-entry-line nil))
-(setq geben-pause-at-entry-line nil)
+;;(setq geben-pause-at-entry-line nil)
 
 (use-package helm
   :ensure t
@@ -354,6 +355,21 @@
   (global-set-key (kbd "C-x C-f")                      'helm-find-files)
   (global-set-key (kbd "C-x b")                        'helm-mini)
   (global-set-key (kbd "M-y")                          'helm-show-kill-ring))
+
+(use-package projectile
+  :ensure t
+  :config
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (projectile-mode +1))
+
+(use-package helm-projectile
+  :ensure t
+  :config
+  (helm-projectile-on)
+  (setq projectile-completion-system 'helm)
+  (setq projectile-switch-project-action 'helm-projectile)
+  )
+
 
 ;; Show count of isearch results
 (use-package anzu
@@ -400,19 +416,28 @@
 
 (split-window-horizontally)
 
-;; Put autosave files in /tmp
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
-
 ;; Copy the backup file in place to avoid changing inode - this messes
 ;; up docker mounts otherwise
-(setq backup-by-copying t)
+;;(setq backup-by-copying t)
+
+;; Put autosave files in a backup dir
+(setq backup-directory-alist '(("." . "~/backups")))
+;; (setq backup-directory-alist
+;;       `((".*" . ,temporary-file-directory)))
+;; (setq auto-save-file-name-transforms
+;;       `((".*" ,temporary-file-directory t)))
 
 ;;; load custom settings
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 (provide 'init)
-;;; init.el ends here
+
 (put 'downcase-region 'disabled nil)
+
+(defun er-byte-compile-init-dir ()
+  "Byte-compile all your dotfiles."
+  (interactive)
+  (byte-recompile-directory user-emacs-directory 0))
+
+
+;;; init.el ends here

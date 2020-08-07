@@ -19,7 +19,7 @@
  '(package-enable-at-startup nil)
  '(package-selected-packages
    (quote
-    (flycheck-gometalinter go-autocomplete go-guru zenburn-theme use-package twilight-theme twilight-anti-bright-theme solarized-theme shell-pop scala-mode2 powerline php-mode mo-git-blame magit js2-mode helm-flyspell go-mode git-timemachine geben flyspell-lazy flycheck-pos-tip flycheck-haskell flycheck-color-mode-line ensime csv-mode color-theme-solarized better-defaults anzu ac-ispell)))
+    (helm-projectile flymake-eslint exec-path-from-shell json-mode flycheck-gometalinter go-autocomplete go-guru zenburn-theme use-package twilight-theme twilight-anti-bright-theme solarized-theme shell-pop scala-mode2 powerline php-mode mo-git-blame magit js2-mode helm-flyspell go-mode git-timemachine geben flyspell-lazy flycheck-pos-tip flycheck-haskell flycheck-color-mode-line ensime csv-mode color-theme-solarized better-defaults anzu ac-ispell)))
  '(powerline-default-separator (quote utf-8))
  '(scroll-bar-mode nil)
  '(shell-pop-full-span t)
@@ -37,11 +37,11 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#141414" :foreground "#F8F8F8" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 130 :width normal :foundry "nil" :family "Source Code Pro"))))
+ '(default ((t (:inherit nil :stipple nil :background "#141414" :foreground "#F8F8F8" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 150 :width normal :foundry "nil" :family "Source Code Pro"))))
  '(flycheck-error ((t (:background "#332323" :foreground "#e37170"))))
  '(flycheck-error-list-warning ((t (:inherit warning :background "#363636"))))
- '(flymake-errline ((((class color) (background dark)) (:background "#332323" :foreground "#e37170"))))
- '(flymake-warnline ((((class color) (background dark)) (:background "#363636"))))
+ '(flymake-error ((((class color) (background dark)) (:background "#332323" :foreground "#e37170"))))
+ '(flymake-warning ((((class color) (background dark)) (:background "#363636"))))
  '(helm-candidate-number ((t (:background "grey20" :foreground "#8F9D6A"))))
  '(helm-header-line-left-margin ((t (:background "grey20" :foreground "purple"))))
  '(helm-match ((t (:foreground "purple"))))

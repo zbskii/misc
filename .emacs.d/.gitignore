@@ -48,4 +48,8 @@ flycheck_*.el
 /network-security.data
 
 # Helm?
-/recentf
+
+# Projectile
+projectile-bookmarks.eld
+semanticdb/
+transient/

@@ -24,3 +24,11 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+Procfile
+
+# Emacs
+*~
+.\#*\#
+.\#*
+\#*\#
