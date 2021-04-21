@@ -19,7 +19,7 @@
  '(package-enable-at-startup nil)
  '(package-selected-packages
    (quote
-    (helm-projectile flymake-eslint exec-path-from-shell json-mode flycheck-gometalinter go-autocomplete go-guru zenburn-theme use-package twilight-theme twilight-anti-bright-theme solarized-theme shell-pop scala-mode2 powerline php-mode mo-git-blame magit js2-mode helm-flyspell go-mode git-timemachine geben flyspell-lazy flycheck-pos-tip flycheck-haskell flycheck-color-mode-line ensime csv-mode color-theme-solarized better-defaults anzu ac-ispell)))
+    (smartparens helm-projectile flymake-eslint exec-path-from-shell json-mode flycheck-gometalinter go-autocomplete go-guru zenburn-theme use-package twilight-theme twilight-anti-bright-theme solarized-theme shell-pop scala-mode2 powerline php-mode mo-git-blame magit js2-mode helm-flyspell go-mode git-timemachine geben flyspell-lazy flycheck-pos-tip flycheck-haskell flycheck-color-mode-line ensime csv-mode color-theme-solarized better-defaults anzu ac-ispell)))
  '(powerline-default-separator (quote utf-8))
  '(scroll-bar-mode nil)
  '(shell-pop-full-span t)

@@ -91,8 +91,6 @@ fi
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 
-# AN go command
-alias jump='ssh -At jump.adnxs.net'
 
 function g() {
 # a function to use go on jump with a couple of improvements
@@ -118,11 +116,7 @@ if [ $# -eq 1 ]; then
   jump /usr/bin/go $@
 }
 
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
-    . $(brew --prefix)/etc/bash_completion
-fi
-
-export JAVA_HOME=$(/usr/libexec/java_home)
+#export JAVA_HOME=$(/usr/libexec/java_home)
 
 . ~/.bashrc
 export BASH_CONF="bash_profile"
@@ -139,3 +133,4 @@ export NVM_DIR="$HOME/.nvm"
 export PATH=$PATH:$HOME/node_modules/.bin
 # Jesus Christ.
 export BASH_SILENCE_DEPRECATION_WARNING=1
+export PATH="/usr/local/opt/libxml2/bin:$PATH"

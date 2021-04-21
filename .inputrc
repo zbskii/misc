@@ -10,4 +10,4 @@ set show-all-if-ambiguous On
 set show-all-if-unmodified On
 set visible-stats On
 "\e[1;5D": backward-word
-"\e[1;5C": forward-word
+"\e1;5C": forward-word
