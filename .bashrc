@@ -45,3 +45,4 @@ eval "$(docker-machine env an-vm 2> /dev/null)"
 alias dc=docker-compose
 export PATH=$PATH:/usr/local/Cellar/mysql-client/5.7.23/bin/
 
+. "$HOME/.cargo/env"

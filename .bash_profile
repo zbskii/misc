@@ -134,3 +134,5 @@ export PATH=$PATH:$HOME/node_modules/.bin
 # Jesus Christ.
 export BASH_SILENCE_DEPRECATION_WARNING=1
 export PATH="/usr/local/opt/libxml2/bin:$PATH"
+. "$HOME/.cargo/env"
+eval "$(/opt/homebrew/bin/brew shellenv)"

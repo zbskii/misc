@@ -1,0 +1,96 @@
+env:
+  # TERM env customization.
+  #
+  # If this property is not set, alacritty will set it to xterm-256color.
+  #
+  # Note that some xterm terminfo databases don't declare support for italics.
+  # You can verify this by checking for the presence of `smso` and `sitm` in
+  # `infocmp xterm-256color`.
+  TERM: xterm-256color
+
+decorations: full
+
+dynamic_title: true
+
+scrolling:
+  # Maximum number of lines in the scrollback buffer.
+  # Specifying '0' will disable scrolling.
+  history: 10000
+
+  # Number of lines the viewport will move for every line scrolled when
+  # scrollback is enabled (history > 0).
+  multiplier: 3
+
+  # Scroll to the bottom when new text is written to the terminal.
+  auto_scroll: false
+
+# Colors (IR_Black)
+colors:
+  bright:
+    black: '#8d8e8d'
+    blue: '#c1e3fe'
+    cyan: '#e5e6fe'
+    green: '#d6fcb9'
+    magenta: '#fdb1fe'
+    red: '#fec4bd'
+    white: '#fefffe'
+    yellow: '#fefdd5'
+  cursor:
+    cursor: '#919291'
+    text: '#feffff'
+  normal:
+    black: '#616261'
+    blue: '#a5d5fe'
+    cyan: '#d0d1fe'
+    green: '#b4fa73'
+    magenta: '#fd8ffd'
+    red: '#fd8272'
+    white: '#f1f0f2'
+    yellow: '#fefcc3'
+  primary:
+    background: '#000000'
+    foreground: '#f3f4f3'
+  selection:
+    background: '#c1ddff'
+    text: '#000000'
+
+# Font configuration
+font:
+  normal:
+    # Font family
+    family: "Cascadia Code"
+    style: Regular
+
+  # Point size
+  size: 15.0
+
+  # Offset is the extra space around each character. `offset.y` can be thought
+  # of as modifying the line spacing, and `offset.x` as modifying the letter
+  # spacing.
+  #offset:
+  #  x: 0
+  #  y: 0
+
+  # Glyph offset determines the locations of the glyphs within their cells with
+  # the default being at the bottom. Increasing `x` moves the glyph to the
+  # right, increasing `y` moves the glyph upward.
+  #glyph_offset:
+  #  x: 0
+  #  y: 0
+
+  # Thin stroke font rendering (macOS only)
+  #
+  # Thin strokes are suitable for retina displays, but for non-retina screens
+  # it is recommended to set `use_thin_strokes` to `false`.
+  use_thin_strokes: true
+
+  # Use built-in font for box drawing characters.
+  #
+  # If `true`, Alacritty will use a custom built-in font for box drawing
+  # characters (Unicode points 2500 - 259f).
+  #
+  builtin_box_drawing: true
+
+# If `true`, bold text is drawn using the bright color variants.
+draw_bold_text_with_bright_colors: true
+

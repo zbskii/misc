@@ -6,6 +6,7 @@
  '(ac-ispell-fuzzy-limit 2)
  '(ac-ispell-requires 4)
  '(ac-use-menu-map t)
+ '(blink-cursor-mode nil)
  '(column-number-mode t)
  '(custom-safe-themes
    (quote
@@ -30,6 +31,7 @@
        (ansi-term shell-pop-term-shell)))))
  '(shell-pop-term-shell "/bin/bash")
  '(shell-pop-universal-key "C-t")
+ '(show-paren-mode t)
  '(tool-bar-mode nil))
 
 (custom-set-faces
@@ -37,12 +39,15 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#141414" :foreground "#F8F8F8" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 150 :width normal :foundry "nil" :family "Source Code Pro"))))
+ '(default ((t (:inherit nil :stipple nil :background "#141414" :foreground "#F8F8F8" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 150 :width normal :foundry "nil" :family "Cascadia Code"))))
  '(flycheck-error ((t (:background "#332323" :foreground "#e37170"))))
  '(flycheck-error-list-warning ((t (:inherit warning :background "#363636"))))
  '(flymake-error ((((class color) (background dark)) (:background "#332323" :foreground "#e37170"))))
  '(flymake-warning ((((class color) (background dark)) (:background "#363636"))))
  '(helm-candidate-number ((t (:background "grey20" :foreground "#8F9D6A"))))
+ '(helm-grep-file ((t (:foreground "#e37170" :underline "#e37170"))))
  '(helm-header-line-left-margin ((t (:background "grey20" :foreground "purple"))))
- '(helm-match ((t (:foreground "purple"))))
+ '(helm-match ((t (:background "#e37170" :foreground "#332323"))))
  '(helm-selection ((t (:background "grey20" :distant-foreground "purple")))))
+
+
