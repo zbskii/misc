@@ -190,7 +190,7 @@
 (use-package twilight-anti-bright-theme
   :ensure t
   :config
-  ;;(load-theme 'twilight-anti-bright)
+  (load-theme 'twilight-anti-bright)
  )
 
 ;; (use-package twilight-theme
@@ -395,7 +395,7 @@
 (use-package helm
   :ensure t
   :config
-  (require 'helm-config)
+;;  (require 'helm-autoloads)
   (helm-mode 1)
   (setq helm-buffers-fuzzy-matching t
         helm-recentf-fuzzy-match    t)
@@ -405,7 +405,8 @@
   (global-set-key (kbd "C-x r b")                      'helm-filtered-bookmarks)
   (global-set-key (kbd "C-x C-f")                      'helm-find-files)
   (global-set-key (kbd "C-x b")                        'helm-mini)
-  (global-set-key (kbd "M-y")                          'helm-show-kill-ring))
+  (global-set-key (kbd "M-y")                          'helm-show-kill-ring)
+  )
 
 (use-package projectile
   :ensure t
