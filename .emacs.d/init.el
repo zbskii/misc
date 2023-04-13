@@ -1,10 +1,16 @@
 ;;; Package -- Brett Carter's Emacs init.el
 
+
+
 ;; Package config
+;; do no use package.el; we're using straight.el so we can load packages outside melpa
+;;(setq package-enable-at-startup nil)
 (require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/") t)
-(package-initialize)
+ (add-to-list 'package-archives
+              '("melpa" . "https://melpa.org/packages/") t)
+ (package-initialize)
+
+;; Straight.el package manager
 
 ;; install use-package
 (unless (package-installed-p 'use-package)
@@ -181,7 +187,7 @@
   :ensure t
   :config
   (when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
+    (exec-path-from-shell-initialize))
   )
 
 (use-package better-defaults
@@ -207,6 +213,7 @@
 ;;   (color-theme-twilight))
 
 ;; auto-complete mode
+;; TODO - company mode
 (use-package auto-complete
   :ensure t
   :config
@@ -468,6 +475,12 @@
 
 (split-window-horizontally)
 
+(use-package ace-window
+  :ensure t
+  :bind (("s-m" . 'ace-window)
+         ("C-x o" . 'ace-window))
+  )
+
 ;; Copy the backup file in place to avoid changing inode - this messes
 ;; up docker mounts otherwise
 ;;(setq backup-by-copying t)
@@ -482,6 +495,28 @@
 ;;; load custom settings
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
+
+;; Themes need to load after custom.el
+(use-package twilight-anti-bright-theme
+  :ensure t
+  :config
+  (load-theme 'twilight-anti-bright)
+ )
+
+;; (use-package twilight-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'twilight))
+
+
+;; (use-package color-theme
+;;   :ensure t
+;;   :config
+;;   (color-theme-initialize)
+;;   (load-file "~/.emacs.d/themes/color-theme-twilight.el")
+;;   (color-theme-twilight))
+
+
 (provide 'init)
 
 (put 'downcase-region 'disabled nil)
@@ -491,5 +526,6 @@
   (interactive)
   (byte-recompile-directory user-emacs-directory 0))
 
+(setq flycheck-ruby-rubocop-executable "~/.rvm/gems/default/bin/rubocop")
 
 ;;; init.el ends here

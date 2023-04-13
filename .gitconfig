@@ -1,22 +1,33 @@
+[include]
+    path = ~/.delta.themes.gitconfig
+
 [core]
     whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
-	excludesfile = /Users/brett/.gitignore_global
+    excludesfile = /Users/brett/.gitignore_global
+    pager = delta
+
 [user]
 	name = Brett Carter
-	email = brett@rdnzl.net
+	email = brettcarter@threeflow.com
+
 [color]
     ui = true
-[color "diff"]
-    whitespace = red reverse
+
+# [color "diff"]
+#     whitespace = red reverse
+
 [format]
     pretty = medium
+
+[push]
+    default = tracking
+
+[merge]
+     defaultToUpstream = true
+     conflictstyle = diff3
+
 [alias]
     nlog = log --stat
-[push]
-        default = tracking
-[merge]
-        defaultToUpstream = true
-[alias]
     br = branch
     ci = commit
     co = checkout
@@ -43,6 +54,20 @@
     ul = "!f() { git log --format='%ae' ${@} | sort | uniq | cut -d'@' -f1 | while read u;do echo @$u;done }; f"
 
 [gist]
-	private = yes
+    private = yes
+
 [rerere]
-	enabled = true
+    enabled = true
+
+# Stuff for delta pager
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true  # use n and N to move between diff sections
+    side-by-side = true
+    features = chameleon
+
+[diff]
+    colorMoved = default
+

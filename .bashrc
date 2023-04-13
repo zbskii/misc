@@ -22,14 +22,14 @@ export LSCOLORS=ExFxCxDxBxegedabagacad
 #     ;;
 # esac
 
-export PATH="/usr/local/bin/python:$PATH"
+#export PATH="/usr/local/bin/python:$PATH"
 
 function gdiff() {
     opendiff $1.THIS $1.OTHER -ancestor $1.BASE -merge $1;
 }
 
-export PATH=$PATH:~/bin:~/Library/Haskell/ghc-7.0.3/lib/hlint-1.8.13/bin
-export PATH="$HOME/Library/Haskell/bin:$PATH"
+#export PATH=$PATH:~/bin:~/Library/Haskell/ghc-7.0.3/lib/hlint-1.8.13/bin
+#export PATH="$HOME/Library/Haskell/bin:$PATH"
 #export JAVA_HOME=$(/usr/libexec/java_home -v 1.9)
 #export JAVA_TOOL_OPTIONS='-Dfile.encoding=UTF-8' # WTF
 #PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
@@ -41,8 +41,8 @@ if [ -f $(brew --prefix)/etc/bash_completion ]; then
 fi
 
 
-eval "$(docker-machine env an-vm 2> /dev/null)"
-alias dc=docker-compose
-export PATH=$PATH:/usr/local/Cellar/mysql-client/5.7.23/bin/
+#eval "$(docker-machine env an-vm 2> /dev/null)"
+#alias dc=docker-compose
+#export PATH=$PATH:/usr/local/Cellar/mysql-client/5.7.23/bin/
 
-. "$HOME/.cargo/env"
+export PATH="/usr/local/opt/postgresql@12/bin:$PATH"

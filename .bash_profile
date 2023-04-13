@@ -88,7 +88,7 @@ if [ -f `brew --prefix`/etc/bash_completion ]; then
   . `brew --prefix`/etc/bash_completion
 fi
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+#[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 
 
@@ -120,19 +120,17 @@ if [ $# -eq 1 ]; then
 
 . ~/.bashrc
 export BASH_CONF="bash_profile"
-export PATH="/usr/local/opt/python/libexec/bin:$PATH"
-export PATH="/usr/local/opt/mysql-client/bin:$PATH"
-export PATH="/usr/local/opt/node@6/bin:$PATH"
-export PATH="/usr/local/opt/php@7.0/bin:$PATH"
-export PATH=$PATH:$HOME/.composer/vendor/bin
+#export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+#export PATH="/usr/local/opt/mysql-client/bin:$PATH"
+#export PATH="/usr/local/opt/node@6/bin:$PATH"
+#export PATH="/usr/local/opt/php@7.0/bin:$PATH"
+#export PATH=$PATH:$HOME/.composer/vendor/bin
 
-export PATH="/usr/local/opt/awscli@1/bin:$PATH"
-export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-export PATH=$PATH:$HOME/node_modules/.bin
-# Jesus Christ.
-export BASH_SILENCE_DEPRECATION_WARNING=1
-export PATH="/usr/local/opt/libxml2/bin:$PATH"
-. "$HOME/.cargo/env"
-eval "$(/opt/homebrew/bin/brew shellenv)"
+#export PATH="/usr/local/opt/awscli@1/bin:$PATH"
+#export NVM_DIR="$HOME/.nvm"
+#[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+#[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+#export PATH=$PATH:$HOME/node_modules/.bin
+## Jesus Christ.
+#export BASH_SILENCE_DEPRECATION_WARNING=1
+#export PATH="/usr/local/opt/libxml2/bin:$PATH"

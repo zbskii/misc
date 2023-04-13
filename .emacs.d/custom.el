@@ -8,6 +8,7 @@
  '(ac-use-menu-map t)
  '(blink-cursor-mode nil)
  '(column-number-mode t)
+ '(custom-enabled-themes '(twilight-anti-bright))
  '(custom-safe-themes
    '("72085337718a3a9b4a7d8857079aa1144ea42d07a4a7696f86627e46ac52f50b" "95db78d85e3c0e735da28af774dfa59308db832f84b8a2287586f5b4f21a7a5b" "51e228ffd6c4fff9b5168b31d5927c27734e82ec61f414970fc6bcce23bc140d" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" default))
  '(desktop-restore-eager 5)
