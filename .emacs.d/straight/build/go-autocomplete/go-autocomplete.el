@@ -1,0 +1,1 @@
+/Users/brettcarter/.emacs.d/straight/repos/go-autocomplete/go-autocomplete.el

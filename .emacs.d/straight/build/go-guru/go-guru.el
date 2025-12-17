@@ -1,0 +1,1 @@
+/Users/brettcarter/.emacs.d/straight/repos/go-mode.el/go-guru.el

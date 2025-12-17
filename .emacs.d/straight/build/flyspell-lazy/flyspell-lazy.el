@@ -1,0 +1,1 @@
+/Users/brettcarter/.emacs.d/straight/repos/flyspell-lazy/flyspell-lazy.el

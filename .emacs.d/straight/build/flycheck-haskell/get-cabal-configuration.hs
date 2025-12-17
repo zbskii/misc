@@ -1,0 +1,1 @@
+/Users/brettcarter/.emacs.d/straight/repos/flycheck-haskell/get-cabal-configuration.hs

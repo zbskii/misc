@@ -1,0 +1,1 @@
+/Users/brettcarter/.emacs.d/straight/repos/ac-ispell/ac-ispell.el
