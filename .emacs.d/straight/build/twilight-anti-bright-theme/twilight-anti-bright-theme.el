@@ -1,1 +1,0 @@
-/Users/brettcarter/.emacs.d/straight/repos/twilight-anti-bright-theme/twilight-anti-bright-theme.el

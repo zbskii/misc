@@ -1,1 +1,0 @@
-/Users/brettcarter/.emacs.d/straight/repos/flycheck-gometalinter/flycheck-gometalinter.el

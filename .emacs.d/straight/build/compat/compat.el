@@ -1,1 +1,0 @@
-/Users/brettcarter/.emacs.d/straight/repos/compat/compat.el

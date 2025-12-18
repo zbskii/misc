@@ -1,1 +1,0 @@
-/Users/brettcarter/.emacs.d/straight/repos/flycheck-color-mode-line/flycheck-color-mode-line.el
