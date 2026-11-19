@@ -34,7 +34,7 @@ export VCPROPMT_FORMAT=' on \033[34m%n\033[00m:\033[00m%[unknown]b\033[32m%m%u'
 
 # Prompt
 case "$TERM" in
-    xterm-color | xterm-256color | eterm-color | screen*) color_prompt=yes;;
+    xterm-color | xterm-256color | eterm-color | screen* | alacritty*) color_prompt=yes;;
 esac
 if [ "$color_prompt" = yes ]; then
     PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
@@ -46,7 +46,7 @@ unset color_prompt force_color_prompt
 
 # Window title
 case "$TERM" in
-xterm*|rxvt*|screen*|eterm-color)
+xterm*|rxvt*|screen*|eterm-color|alacritty*)
     PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"'
     ;;
 *)
@@ -71,7 +71,7 @@ function pgkill() {
 # Fucking osx.
 alias top="top -o cpu"
 
-export PATH=/usr/local/bin:/usr/local/sbin:$PATH:~/bin:~/src/arcanist/bin:~/.gem/ruby/1.8/bin
+export PATH=$PATH:~/bin:~/src/arcanist/bin:~/.gem/ruby/1.8/bin
 export PATH=$PATH:~/src/schema-tool
 
 # Tcpdump for HTTP traffic
@@ -83,10 +83,9 @@ export PATH
 
 alias gtags="git show-ref --tags"
 
-# Bash completion hacks
-if [ -f `brew --prefix`/etc/bash_completion ]; then
-  . `brew --prefix`/etc/bash_completion
-fi
+# Homebrew
+PATH="/opt/homebrew/bin:$PATH"
+PATH="/opt/homebrew/sbin:$PATH"
 
 #[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
@@ -132,5 +131,10 @@ export BASH_CONF="bash_profile"
 #[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 #export PATH=$PATH:$HOME/node_modules/.bin
 ## Jesus Christ.
-#export BASH_SILENCE_DEPRECATION_WARNING=1
+export BASH_SILENCE_DEPRECATION_WARNING=1
 #export PATH="/usr/local/opt/libxml2/bin:$PATH"
+
+# Added by OrbStack: command-line tools and integration
+# This won't be added again if you remove it.
+source ~/.orbstack/shell/init.bash 2>/dev/null || :
+export PATH="$HOME/.local/bin:$PATH"

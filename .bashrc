@@ -35,9 +35,9 @@ function gdiff() {
 #PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 # z
 . `brew --prefix`/etc/profile.d/z.sh
-# bash completion
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
-  . $(brew --prefix)/etc/bash_completion
+# bash completion (bash-completion@2 needs bash >= 4.2)
+if (( BASH_VERSINFO[0] > 4 || (BASH_VERSINFO[0] == 4 && BASH_VERSINFO[1] >= 2) )); then
+  [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"
 fi
 
 
@@ -45,4 +45,5 @@ fi
 #alias dc=docker-compose
 #export PATH=$PATH:/usr/local/Cellar/mysql-client/5.7.23/bin/
 
-export PATH="/usr/local/opt/postgresql@12/bin:$PATH"
+# Secrets (not in git)
+[ -r ~/.bash_secrets ] && . ~/.bash_secrets
